@@ -1,0 +1,17 @@
+syntax = "proto3";
+package babychain.game;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "babychain/game/params.proto";
+
+option go_package = "github.com/BabbyBit/babychain/x/game/types";
+
+// GenesisState defines the game module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
