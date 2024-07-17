@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package babychain.game;
 
 import "amino/amino.proto";
@@ -6,25 +7,54 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "babychain/game/params.proto";
+import "babychain/game/player.proto";
+import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/BabbyBit/babychain/x/game/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/BabbyBit/babychain/game/params";
+  
+  }
+  
+  // Queries a list of Player items.
+  rpc Player    (QueryGetPlayerRequest) returns (QueryGetPlayerResponse) {
+    option (google.api.http).get = "/BabbyBit/babychain/game/player/{address}";
+  
+  }
+  rpc PlayerAll (QueryAllPlayerRequest) returns (QueryAllPlayerResponse) {
+    option (google.api.http).get = "/BabbyBit/babychain/game/player";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
+
+message QueryGetPlayerRequest {
+  string address = 1;
+}
+
+message QueryGetPlayerResponse {
+  Player player = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllPlayerRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllPlayerResponse {
+  repeated Player                                 player     = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+

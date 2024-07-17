@@ -1,0 +1,17 @@
+syntax = "proto3";
+package babychain.game;
+
+option go_package = "github.com/BabbyBit/babychain/x/game/types";
+import "gogoproto/gogo.proto"; 
+import "cosmos/base/v1beta1/coin.proto"; 
+
+message Player {
+  string address = 1; 
+  uint64 currentLevel = 2; 
+  cosmos.base.v1beta1.Coin currentIncome = 3 [(gogoproto.nullable) = false]; 
+  cosmos.base.v1beta1.Coin nextIncome = 4 [(gogoproto.nullable) = false]; 
+  cosmos.base.v1beta1.Coin nextLevelPrice = 5 [(gogoproto.nullable) = false]; 
+  uint64 lastIncomeBlock = 6; 
+  
+}
+
