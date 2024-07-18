@@ -1,22 +1,57 @@
 version: 1
 validation: sovereign
+init:
+  config:
+    consensus:
+      timeout_commit: "10s"
+genesis:
+  consensus_params:
+    block:
+      time_iota_ms: "10000"      
+  app_state:
+    staking:
+      params:
+        bond_denom: uexperience
+    mint:
+      params:
+        mint_denom: uexperience
+    crisis:
+      constant_fee:
+        denom: uexperience
+    gov:
+      params:
+        min_deposit:
+          denom: uexperience
+    bank:
+      denom_metadata:
+        - description: experience
+          base: uexperience
+          display: experience
+          name: Experience
+          symbol: EXP
+          denom_units:
+            - denom: uexperience
+              exponent: 0
+              aliases:
+                - Experience Micro
+            - denom: experience
+              exponent: 6
+              aliases:
+                - Experience
 accounts: 
 - name: alice
   coins:
-  - 20000token
-  - 200000000stake
+  - 200000000uexperience
 - name: bob
   coins:
-  - 10000token
-  - 100000000stake
+  - 100000000uexperience
 client:
   openapi:
     path: docs/static/openapi.yml
 faucet:
   name: bob
   coins:
-  - 5token
-  - 100000stake
+  - 100000uexperience
 validators:
 - name: alice
-  bonded: 100000000stake
+  bonded: 100000000uexperience
