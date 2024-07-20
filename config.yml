@@ -1,13 +1,6 @@
 version: 1
 validation: sovereign
-init:
-  config:
-    consensus:
-      timeout_commit: "10s"
 genesis:
-  consensus_params:
-    block:
-      time_iota_ms: "10000"      
   app_state:
     staking:
       params:
@@ -55,3 +48,6 @@ faucet:
 validators:
 - name: alice
   bonded: 100000000uexperience
+  config:
+    consensus:
+      timeout_commit: "1s"
