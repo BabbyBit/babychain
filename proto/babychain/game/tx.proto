@@ -19,6 +19,7 @@ service Msg {
   // parameters. The authority defaults to the x/gov module account.
   rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
   rpc Join         (MsgJoin        ) returns (MsgJoinResponse        );
+  rpc Upgrade      (MsgUpgrade     ) returns (MsgUpgradeResponse     );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -44,6 +45,15 @@ message MsgJoin {
 }
 
 message MsgJoinResponse {
+  Player player = 1;
+}
+
+message MsgUpgrade {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+}
+
+message MsgUpgradeResponse {
   Player player = 1;
 }
 

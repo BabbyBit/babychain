@@ -6,6 +6,10 @@ package types
 import (
 	context "context"
 	fmt "fmt"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+
 	_ "github.com/cosmos/cosmos-proto"
 	_ "github.com/cosmos/cosmos-sdk/types/msgservice"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
@@ -15,9 +19,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	io "io"
-	math "math"
-	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -212,17 +213,107 @@ func (m *MsgJoinResponse) GetPlayer() *Player {
 	return nil
 }
 
+type MsgUpgrade struct {
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+}
+
+func (m *MsgUpgrade) Reset()         { *m = MsgUpgrade{} }
+func (m *MsgUpgrade) String() string { return proto.CompactTextString(m) }
+func (*MsgUpgrade) ProtoMessage()    {}
+func (*MsgUpgrade) Descriptor() ([]byte, []int) {
+	return fileDescriptor_15331e113a2c302a, []int{4}
+}
+func (m *MsgUpgrade) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpgrade) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpgrade.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpgrade) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpgrade.Merge(m, src)
+}
+func (m *MsgUpgrade) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpgrade) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpgrade.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpgrade proto.InternalMessageInfo
+
+func (m *MsgUpgrade) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+type MsgUpgradeResponse struct {
+	Player *Player `protobuf:"bytes,1,opt,name=player,proto3" json:"player,omitempty"`
+}
+
+func (m *MsgUpgradeResponse) Reset()         { *m = MsgUpgradeResponse{} }
+func (m *MsgUpgradeResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpgradeResponse) ProtoMessage()    {}
+func (*MsgUpgradeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_15331e113a2c302a, []int{5}
+}
+func (m *MsgUpgradeResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpgradeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpgradeResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpgradeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpgradeResponse.Merge(m, src)
+}
+func (m *MsgUpgradeResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpgradeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpgradeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpgradeResponse proto.InternalMessageInfo
+
+func (m *MsgUpgradeResponse) GetPlayer() *Player {
+	if m != nil {
+		return m.Player
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*MsgUpdateParams)(nil), "babychain.game.MsgUpdateParams")
 	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "babychain.game.MsgUpdateParamsResponse")
 	proto.RegisterType((*MsgJoin)(nil), "babychain.game.MsgJoin")
 	proto.RegisterType((*MsgJoinResponse)(nil), "babychain.game.MsgJoinResponse")
+	proto.RegisterType((*MsgUpgrade)(nil), "babychain.game.MsgUpgrade")
+	proto.RegisterType((*MsgUpgradeResponse)(nil), "babychain.game.MsgUpgradeResponse")
 }
 
 func init() { proto.RegisterFile("babychain/game/tx.proto", fileDescriptor_15331e113a2c302a) }
 
 var fileDescriptor_15331e113a2c302a = []byte{
-	// 425 bytes of a gzipped FileDescriptorProto
+	// 463 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x4f, 0x4a, 0x4c, 0xaa,
 	0x4c, 0xce, 0x48, 0xcc, 0xcc, 0xd3, 0x4f, 0x4f, 0xcc, 0x4d, 0xd5, 0x2f, 0xa9, 0xd0, 0x2b, 0x28,
 	0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x83, 0x4b, 0xe8, 0x81, 0x24, 0xa4, 0x04, 0x13, 0x73, 0x33, 0xf3,
@@ -241,15 +332,17 @@ var fileDescriptor_15331e113a2c302a = []byte{
 	0xbc, 0xe2, 0x54, 0x25, 0x43, 0x2e, 0x76, 0xdf, 0xe2, 0x74, 0xaf, 0xfc, 0xcc, 0x3c, 0x21, 0x09,
 	0x2e, 0xf6, 0xe4, 0xa2, 0xd4, 0xc4, 0x92, 0xfc, 0x22, 0x88, 0x5f, 0x82, 0x60, 0x5c, 0x2b, 0x1e,
 	0x90, 0xa5, 0x30, 0x9e, 0x92, 0x23, 0x38, 0x20, 0x40, 0x5a, 0x60, 0xa6, 0x08, 0xe9, 0x71, 0xb1,
-	0x41, 0x02, 0x0b, 0xac, 0x13, 0x9b, 0x87, 0xc0, 0xb2, 0x41, 0x50, 0x55, 0x46, 0x2b, 0x18, 0xb9,
-	0x98, 0x7d, 0x8b, 0xd3, 0x85, 0x22, 0xb8, 0x78, 0x50, 0x02, 0x54, 0x1e, 0x5d, 0x1f, 0x9a, 0xb3,
-	0xa5, 0xd4, 0x09, 0x28, 0x80, 0xbb, 0xc8, 0x81, 0x8b, 0x05, 0xec, 0x29, 0x71, 0x2c, 0x1a, 0x40,
-	0x12, 0x52, 0xf2, 0x38, 0x24, 0x60, 0x26, 0x48, 0xb1, 0x36, 0x80, 0x02, 0xde, 0xc9, 0xe5, 0xc4,
-	0x23, 0x39, 0xc6, 0x0b, 0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92, 0x63, 0x9c, 0xf0, 0x58, 0x8e, 0xe1,
-	0xc2, 0x63, 0x39, 0x86, 0x1b, 0x8f, 0xe5, 0x18, 0xa2, 0xb4, 0xd2, 0x33, 0x4b, 0x32, 0x4a, 0x93,
-	0xf4, 0x92, 0xf3, 0x73, 0xf5, 0x9d, 0x12, 0x93, 0x92, 0x2a, 0x9d, 0x32, 0x4b, 0xf4, 0x31, 0xe2,
-	0xa2, 0xa4, 0xb2, 0x20, 0xb5, 0x38, 0x89, 0x0d, 0x9c, 0x88, 0x8c, 0x01, 0x01, 0x00, 0x00, 0xff,
-	0xff, 0x8d, 0xe3, 0x4e, 0xa8, 0x06, 0x03, 0x00, 0x00,
+	0x41, 0x02, 0x0b, 0xac, 0x13, 0x9b, 0x87, 0xc0, 0xb2, 0x41, 0x50, 0x55, 0x4a, 0x26, 0x5c, 0x5c,
+	0x60, 0x07, 0xa5, 0x17, 0x25, 0xa6, 0xa4, 0x12, 0x6d, 0xb1, 0x0b, 0x97, 0x10, 0x42, 0x17, 0xb9,
+	0x76, 0x1b, 0x7d, 0x66, 0xe4, 0x62, 0xf6, 0x2d, 0x4e, 0x17, 0x8a, 0xe0, 0xe2, 0x41, 0x89, 0x4c,
+	0x79, 0x74, 0x7d, 0x68, 0x41, 0x26, 0xa5, 0x4e, 0x40, 0x01, 0xdc, 0x45, 0x0e, 0x5c, 0x2c, 0xe0,
+	0x00, 0x15, 0xc7, 0xa2, 0x01, 0x24, 0x21, 0x25, 0x8f, 0x43, 0x02, 0x6e, 0x82, 0x27, 0x17, 0x3b,
+	0x2c, 0x70, 0xa4, 0xb0, 0xda, 0x0a, 0x96, 0x93, 0x52, 0xc2, 0x2d, 0x07, 0x33, 0x4a, 0x8a, 0xb5,
+	0x01, 0x94, 0x7e, 0x9c, 0x5c, 0x4e, 0x3c, 0x92, 0x63, 0xbc, 0xf0, 0x48, 0x8e, 0xf1, 0xc1, 0x23,
+	0x39, 0xc6, 0x09, 0x8f, 0xe5, 0x18, 0x2e, 0x3c, 0x96, 0x63, 0xb8, 0xf1, 0x58, 0x8e, 0x21, 0x4a,
+	0x2b, 0x3d, 0xb3, 0x24, 0xa3, 0x34, 0x49, 0x2f, 0x39, 0x3f, 0x57, 0xdf, 0x29, 0x31, 0x29, 0xa9,
+	0xd2, 0x29, 0xb3, 0x44, 0x1f, 0x23, 0x49, 0x95, 0x54, 0x16, 0xa4, 0x16, 0x27, 0xb1, 0x81, 0xf3,
+	0x82, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0xd4, 0x7a, 0xb8, 0x9e, 0xcd, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -268,6 +361,7 @@ type MsgClient interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	Join(ctx context.Context, in *MsgJoin, opts ...grpc.CallOption) (*MsgJoinResponse, error)
+	Upgrade(ctx context.Context, in *MsgUpgrade, opts ...grpc.CallOption) (*MsgUpgradeResponse, error)
 }
 
 type msgClient struct {
@@ -296,12 +390,22 @@ func (c *msgClient) Join(ctx context.Context, in *MsgJoin, opts ...grpc.CallOpti
 	return out, nil
 }
 
+func (c *msgClient) Upgrade(ctx context.Context, in *MsgUpgrade, opts ...grpc.CallOption) (*MsgUpgradeResponse, error) {
+	out := new(MsgUpgradeResponse)
+	err := c.cc.Invoke(ctx, "/babychain.game.Msg/Upgrade", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// UpdateParams defines a (governance) operation for updating the module
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	Join(context.Context, *MsgJoin) (*MsgJoinResponse, error)
+	Upgrade(context.Context, *MsgUpgrade) (*MsgUpgradeResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -313,6 +417,9 @@ func (*UnimplementedMsgServer) UpdateParams(ctx context.Context, req *MsgUpdateP
 }
 func (*UnimplementedMsgServer) Join(ctx context.Context, req *MsgJoin) (*MsgJoinResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Join not implemented")
+}
+func (*UnimplementedMsgServer) Upgrade(ctx context.Context, req *MsgUpgrade) (*MsgUpgradeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Upgrade not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -355,6 +462,24 @@ func _Msg_Join_Handler(srv interface{}, ctx context.Context, dec func(interface{
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_Upgrade_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpgrade)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).Upgrade(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/babychain.game.Msg/Upgrade",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).Upgrade(ctx, req.(*MsgUpgrade))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "babychain.game.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -366,6 +491,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Join",
 			Handler:    _Msg_Join_Handler,
+		},
+		{
+			MethodName: "Upgrade",
+			Handler:    _Msg_Upgrade_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -500,6 +629,71 @@ func (m *MsgJoinResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgUpgrade) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpgrade) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpgrade) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpgradeResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpgradeResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpgradeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Player != nil {
+		{
+			size, err := m.Player.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -549,6 +743,32 @@ func (m *MsgJoin) Size() (n int) {
 }
 
 func (m *MsgJoinResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Player != nil {
+		l = m.Player.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUpgrade) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUpgradeResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -841,6 +1061,174 @@ func (m *MsgJoinResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgJoinResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Player", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Player == nil {
+				m.Player = &Player{}
+			}
+			if err := m.Player.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpgrade) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpgrade: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpgrade: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpgradeResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpgradeResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpgradeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

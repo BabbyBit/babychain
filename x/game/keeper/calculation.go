@@ -15,6 +15,6 @@ func calculateIncome(level int64, exponent uint32) cosmosmath.Int {
 
 func calculateLevelPrice(level int64, exponent uint32) cosmosmath.Int {
 	// Цена = Базовая цена × 1.09^Сделано улучшений = 10*1.09^Level
-	price := basePrice * int64(math.Pow(priceCoefficient, float64(level)))
-	return cosmosmath.NewInt(price * int64(math.Pow10(int(exponent))))
+	price := basePrice * math.Pow(priceCoefficient, float64(level))
+	return cosmosmath.NewInt(int64(price) * int64(math.Pow10(int(exponent))))
 }

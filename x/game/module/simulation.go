@@ -27,6 +27,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgJoin int = 100
 
+	opWeightMsgUpgrade = "op_weight_msg_upgrade"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpgrade int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -61,6 +65,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		gamesimulation.SimulateMsgJoin(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgUpgrade int
+	simState.AppParams.GetOrGenerate(opWeightMsgUpgrade, &weightMsgUpgrade, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpgrade = defaultWeightMsgUpgrade
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpgrade,
+		gamesimulation.SimulateMsgUpgrade(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -74,6 +89,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgJoin,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				gamesimulation.SimulateMsgJoin(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgUpgrade,
+			defaultWeightMsgUpgrade,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				gamesimulation.SimulateMsgUpgrade(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
