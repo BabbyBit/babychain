@@ -8,4 +8,3 @@ FROM mcr.microsoft.com/vscode/devcontainers/go:${VARIANT}
 
 RUN curl https://get.ignite.com/cli@v28.4.0! | bash
 RUN sudo chown vscode /usr/local/bin/ignite
-RUN sudo chown -R vscode /workspaces
